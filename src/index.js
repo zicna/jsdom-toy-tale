@@ -33,25 +33,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let button = document.createElement("button");
       button.setAttribute("class", "like-btn");
+      button.setAttribute("id", toy["id"]);
+
       button.innerHTML = "Like <3";
       button.addEventListener("click", (event) => {
-        debugger;
-        // console.log(toy["id"]);
-        // let toyID = toy["id"];
-        // let toyLikes = toy["likes"];
+        // debugger;
+        let toyID = event.target.id;
+        let toyLikes = parseInt(event.target.previousSibling.innerText);
         const configToy = {
-          method: "POST",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
           body: JSON.stringify({
-            likes: toyLikes + 1,
+            likes: `${toyLikes + 1}`,
           }),
         };
-        fetch(`${baseURL}/${toyID}`)
+        fetch(`${baseURL}/${toyID}`, configToy)
           .then((response) => response.json())
-          .then((data) => console.log(data));
+          .then((data) => p.innerHTML = data["likes"]);
       });
       div.appendChild(button);
 
